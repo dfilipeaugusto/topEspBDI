@@ -1,0 +1,64 @@
+# Exemplos de consultas em Sparql
+
+#########################
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX w3id: <https://w3id.org/survey-ontology#>
+PREFIX db-owl: <https://dbpedia.org/ontology/>
+select ?range_age  (avg(?vaxord) as ?avg) (min(?vaxord) as ?min) (max(?vaxord) as ?max) where { 
+    ?respID w3id:hasValue ?vaxord ;
+            foaf:age ?age .
+    BIND( FLOOR(?age/10) AS ?range_age ) 
+} group by ?range_age
+
+#########################
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX w3id: <https://w3id.org/survey-ontology#>
+PREFIX db-owl: <https://dbpedia.org/ontology/>
+select ?party ?ethnicity  (avg(?vaxord) as ?avg) (min(?vaxord) as ?min) (max(?vaxord) as ?max) where { 
+    ?respID w3id:hasValue ?vaxord ;
+            foaf:topic_interest ?party ;
+            db-owl:ethnicity ?ethnicity .
+}
+group by ?party ?ethnicity
+
+#########################
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX w3id: <https://w3id.org/survey-ontology#>
+PREFIX db-owl: <https://dbpedia.org/ontology/>
+select ?party  (avg(?vaxord) as ?avg) (min(?vaxord) as ?min) (max(?vaxord) as ?max) where { 
+    ?respID w3id:hasValue ?vaxord ;
+            foaf:topic_interest ?party
+}
+group by ?party
+
+#########################
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX w3id: <https://w3id.org/survey-ontology#>
+PREFIX db-owl: <https://dbpedia.org/ontology/>
+select ?range_age (count(?vaxord) as ?count) (avg(?vaxord) as ?avg) (min(?vaxord) as ?min) (max(?vaxord) as ?max) where { 
+    ?respID w3id:hasValue ?vaxord ;
+            foaf:age ?age .
+    BIND( ?age<60 AS ?range_age ) 
+} group by ?range_age
+
+#########################
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX w3id: <https://w3id.org/survey-ontology#>
+PREFIX db-owl: <https://dbpedia.org/ontology/>
+select ?party  (avg(?vaxord) as ?avg) (count(?vaxord) as ?count) where { 
+    ?respID w3id:hasValue ?vaxord ;
+            foaf:topic_interest ?party ;
+            db-owl:ethnicity ?ethnicity .
+}
+group by ?party
+#########################
